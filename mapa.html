@@ -19,7 +19,7 @@
   --border:     #d0d8e4;
   --font:       'Open Sans', Arial, sans-serif;
 }
-body { font-family: var(--font); background: #ffffff; color: #333; }
+body { font-family: var(--font); background: #f0f3f7; color: #333; }
 
 .page-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
 
@@ -47,7 +47,7 @@ body { font-family: var(--font); background: #ffffff; color: #333; }
   transition: all .18s;
   font-family: var(--font);
 }
-.map-tab:hover { border-color: var(--blue-light); color: var(--blue-light); background: #ffffff; }
+.map-tab:hover { border-color: var(--blue-light); color: var(--blue-light); background: #ffffffff; }
 .map-tab.active { border-color: var(--blue-mid); background: var(--blue-mid); color: #fff; box-shadow: 0 2px 8px rgba(0,91,159,.25); }
 .tab-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
 
@@ -98,7 +98,7 @@ body { font-family: var(--font); background: #ffffff; color: #333; }
   transition: background .15s, border-color .15s;
   line-height: 1;
 }
-.zoom-btn:hover { background: #ffffff; border-color: var(--blue-light); color: var(--blue-light); }
+.zoom-btn:hover { background: #ffffffff; border-color: var(--blue-light); color: var(--blue-light); }
 .zoom-btn.reset { color: var(--gray-text); }
 .zoom-btn.reset:hover { color: var(--blue-dark); }
 .zoom-pct {
@@ -158,6 +158,7 @@ body { font-family: var(--font); background: #ffffff; color: #333; }
 
 <div class="page-wrap">
   
+
   <div class="map-tabs">
     <button class="map-tab active" id="tab-regulados" onclick="selectMap('regulados')">
       <span class="tab-dot" style="background:#0073c0;"></span>
