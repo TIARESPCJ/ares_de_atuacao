@@ -19,7 +19,6 @@
   --border:     #d0d8e4;
   --font:       'Open Sans', Arial, sans-serif;
 }
-html, body { overflow: hidden; height: 100%; }
 body { font-family: var(--font); background: #f0f3f7; color: #333; }
 
 .page-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
@@ -60,6 +59,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
   overflow: hidden;
 }
 
+/* Cabeçalho do card */
 .map-card-header {
   background: var(--gray-light);
   border-bottom: 1px solid var(--border);
@@ -73,6 +73,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
   border-radius: 20px; color: #fff;
 }
 
+/* Barra de controles de zoom — FORA do container da imagem */
 .zoom-bar {
   display: flex;
   align-items: center;
@@ -107,11 +108,12 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
   margin-left: 2px;
 }
 
+/* Área da imagem com zoom */
 .map-zoom-wrap {
   overflow: hidden;
   cursor: grab;
   width: 100%;
-  height: 650px;
+  height: 1500px;
   position: relative;
   user-select: none;
   background: var(--white);
@@ -131,13 +133,15 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
 .map-view.active { display: flex; }
 .map-view img {
   max-width: 100%;
-  max-height: 640px;
+  max-height: 490px;
   object-fit: contain;
   display: block;
   pointer-events: none;
+  /* garante que a imagem não interfira no drag */
   -webkit-user-drag: none;
 }
 
+/* Rodapé com legenda */
 .map-footer {
   border-top: 1px solid var(--border);
   padding: 12px 20px;
@@ -153,8 +157,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
 <body>
 
 <div class="page-wrap">
-  <h1 class="page-title">Área de Atuação da ARES-PCJ</h1>
-
+  
   <div class="map-tabs">
     <button class="map-tab active" id="tab-regulados" onclick="selectMap('regulados')">
       <span class="tab-dot" style="background:#0073c0;"></span>
@@ -188,11 +191,13 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
 
   <div class="map-card">
 
+    <!-- 1. Cabeçalho -->
     <div class="map-card-header">
       <h3 id="card-title">Municípios Regulados — Estado de São Paulo</h3>
       <span class="map-badge" id="card-badge" style="background:#0073c0;">REGULADOS</span>
     </div>
 
+    <!-- 2. Barra de zoom (fora do container da imagem) -->
     <div class="zoom-bar">
       <button class="zoom-btn" onclick="zoomMap(1.3)" title="Ampliar">
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="currentColor" stroke-width="1.3"/><line x1="7.5" y1="7.5" x2="10.5" y2="10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="4.5" y1="2.5" x2="4.5" y2="6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="2.5" y1="4.5" x2="6.5" y2="4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -208,6 +213,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
       <span class="zoom-pct" id="zoom-pct">100%</span>
     </div>
 
+    <!-- 3. Área da imagem com zoom/pan -->
     <div class="map-zoom-wrap" id="zoom-wrap">
       <div class="map-zoom-inner" id="zoom-inner">
 
@@ -236,6 +242,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
       </div>
     </div>
 
+    <!-- 4. Legenda -->
     <div class="map-footer">
       <span class="leg-title">Legenda</span>
 
@@ -270,6 +277,7 @@ body { font-family: var(--font); background: #f0f3f7; color: #333; }
 </div>
 
 <script>
+/* ── Dados das abas ── */
 const maps = {
   regulados:   { title: 'Municípios Regulados — Estado de São Paulo',              badge: 'REGULADOS',            color: '#0073c0' },
   mun:         { title: 'Municípios Associados — Estado de São Paulo',             badge: 'ASSOCIADOS',           color: '#e8c919' },
@@ -294,6 +302,7 @@ function selectMap(id) {
   badge.style.background = m.color;
 }
 
+/* ── Zoom / Pan ── */
 const wrap  = document.getElementById('zoom-wrap');
 const inner = document.getElementById('zoom-inner');
 const pctEl = document.getElementById('zoom-pct');
@@ -311,8 +320,10 @@ function clampPan() {
   const wr = wrap.getBoundingClientRect();
   const iw = wr.width  * scale;
   const ih = wr.height * scale;
+
   if (iw <= wr.width)   tx = (wr.width  - iw) / 2;
   else                  tx = Math.min(0, Math.max(tx, wr.width  - iw));
+
   if (ih <= wr.height)  ty = (wr.height - ih) / 2;
   else                  ty = Math.min(0, Math.max(ty, wr.height - ih));
 }
@@ -321,6 +332,7 @@ function zoomMap(factor, originX, originY) {
   const wr = wrap.getBoundingClientRect();
   const cx = (originX !== undefined) ? originX - wr.left : wr.width  / 2;
   const cy = (originY !== undefined) ? originY - wr.top  : wr.height / 2;
+
   const newScale = Math.min(6, Math.max(0.5, scale * factor));
   tx = cx - (cx - tx) * (newScale / scale);
   ty = cy - (cy - ty) * (newScale / scale);
@@ -335,11 +347,13 @@ function resetZoom() {
   applyTransform();
 }
 
+/* Mouse wheel */
 wrap.addEventListener('wheel', e => {
   e.preventDefault();
   zoomMap(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY);
 }, { passive: false });
 
+/* Mouse drag */
 wrap.addEventListener('mousedown', e => {
   dragging = true;
   startX = e.clientX; startY = e.clientY;
@@ -358,6 +372,7 @@ window.addEventListener('mouseup', () => {
   wrap.style.cursor = 'grab';
 });
 
+/* Touch: arrastar + pinça */
 wrap.addEventListener('touchstart', e => {
   if (e.touches.length === 1) {
     dragging = true;
@@ -393,6 +408,7 @@ wrap.addEventListener('touchmove', e => {
 
 wrap.addEventListener('touchend', () => { dragging = false; lastDist = null; });
 
+/* init */
 clampPan();
 applyTransform();
 </script>
