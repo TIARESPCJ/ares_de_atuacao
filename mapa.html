@@ -21,6 +21,16 @@
 }
 body { font-family: var(--font); background: #ffffff; color: #333; }
 
+.container-iframe {
+    width: 100%;
+    height: 600px; /* Ou 100vh */
+}
+.container-iframe iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 .page-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
 
 .page-title {
@@ -47,7 +57,7 @@ body { font-family: var(--font); background: #ffffff; color: #333; }
   transition: all .18s;
   font-family: var(--font);
 }
-.map-tab:hover { border-color: var(--blue-light); color: var(--blue-light); background: #f0f6fd; }
+.map-tab:hover { border-color: var(--blue-light); color: var(--blue-light); background: #ffffff; }
 .map-tab.active { border-color: var(--blue-mid); background: var(--blue-mid); color: #fff; box-shadow: 0 2px 8px rgba(0,91,159,.25); }
 .tab-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
 
